@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Endianness",
+        "repositoryURL": "https://github.com/kojirou1994/Endianness.git",
+        "state": {
+          "branch": null,
+          "revision": "b4a0c081ed60a6f2c12f2b3d152445e1f96aa079",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
