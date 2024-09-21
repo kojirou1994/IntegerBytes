@@ -2,6 +2,7 @@ import Endianness
 
 public struct IntegerBytes<T: FixedWidthInteger> {
 
+  /// interger value with host byte order
   public var value: T
 
   public init(_ value: T, endian: Endianness = .host) {
@@ -12,16 +13,22 @@ public struct IntegerBytes<T: FixedWidthInteger> {
 
 extension IntegerBytes: MutableCollection, RandomAccessCollection {
 
+  @inlinable
   public var count: Int { MemoryLayout<T>.size }
 
+  @inlinable
   public var startIndex: Int { 0 }
 
+  @inlinable
   public var endIndex: Int { count }
 
+  @inlinable
   public func index(after i: Int) -> Int {
-    i + 1
+    assert(i <= endIndex)
+    return i + 1
   }
 
+  @inlinable
   public subscript(position: Int) -> UInt8 {
     get {
       withUnsafeBytes(of: value) { buffer in
@@ -35,6 +42,7 @@ extension IntegerBytes: MutableCollection, RandomAccessCollection {
     }
   }
 
+  @inlinable
   public func withContiguousStorageIfAvailable<R>(_ body: (UnsafeBufferPointer<UInt8>) throws -> R) rethrows -> R? {
     try withUnsafeBytes(of: value) { try body($0.bindMemory(to: UInt8.self)) }
   }
@@ -45,6 +53,7 @@ import struct Foundation.Data
 
 extension FixedWidthInteger {
 
+  @inlinable
   public func toBytes(endian: Endianness = .big) -> Data {
     withUnsafeBytes(of: endian == .host ? self : self.byteSwapped) { buffer in
       Data(buffer)
